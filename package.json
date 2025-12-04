@@ -1,0 +1,12 @@
+{
+  "name": "color-craze-load-balancer",
+  "version": "1.0.0",
+  "main": "server.js",
+  "description": "Node.js load balancer for HTTP and WebSocket (Railway)",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "http-proxy": "^1.18.1"
+  }
+}
