@@ -20,11 +20,12 @@ const proxy = httpProxy.createProxyServer({
 function getClientIp(req) {
   // X-Forwarded-For puede tener múltiples IPs, tomamos la primera
   const xff = req.headers['x-forwarded-for'];
-  if (xff) {
-    return xff.split(',')[0].trim();
-  }
-  // Fallback: req.connection.remoteAddress
-  return req.connection.remoteAddress || req.socket.remoteAddress;
+  if (xff) return xff.split(',')[0].trim();
+  return (
+    req.connection?.remoteAddress ||
+    req.socket?.remoteAddress ||
+    (req.connection?.socket ? req.connection.socket.remoteAddress : null)
+  );
 }
 
 function getTargetForIp(ip) {
@@ -57,5 +58,5 @@ server.on('upgrade', (req, socket, head) => {
 
 const PORT = process.env.PORT || 8080;
 server.listen(PORT, () => {
-  console.log(`Load balancer listening on port ${PORT}`);
+  console.log(`Load balancer with sticky sessions listening on port ${PORT}`);
 });
